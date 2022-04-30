@@ -17,12 +17,13 @@ src_paths = "src"
 
 [tool.poetry]
 name = "app"
-version = "0.0.1"
+version = "0.0.3"
 description = "The `Test-Driven Development with FastAPI and Docker` course"
 authors = ["Derek Wan <d.wan@icloud.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+asyncpg = "^0.25.0"
 fastapi = "^0.75.2"
 uvicorn = "^0.17.6"
 
@@ -41,11 +42,11 @@ flake8-annotations = "^2.9.0"
 flake8-bandit = "^3.0.0"
 flake8-bugbear = "^22.4.25"
 flake8-comprehensions = "^3.8.0"
-flake8-debugger = "^4.0.0"
+flake8-debugger = "^4.1.2"
 flake8-eradicate = "^1.2.1"
 flake8-no-pep420 = "^2.2.0"
 flake8-pie = "^0.15.0"
-flake8-print = "^4.0.0"
+flake8-print = "^5.0.0"
 flake8-simplify = "^0.19.2"
 flake8-unused-arguments = "^0.0.10"
 # testing
