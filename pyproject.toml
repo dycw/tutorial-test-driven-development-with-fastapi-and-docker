@@ -16,13 +16,14 @@ skip_gitignore = true
 src_paths = "src"
 
 [tool.poetry]
-name = "dummy"
+name = "app"
 version = "0.0.1"
-description = "Dummy package"
+description = "The `Test-Driven Development with FastAPI and Docker` course"
 authors = ["Derek Wan <d.wan@icloud.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = "^0.75.2"
 
 [tool.poetry.dev-dependencies]
 # development
