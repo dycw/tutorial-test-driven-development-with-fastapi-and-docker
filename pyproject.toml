@@ -23,6 +23,7 @@ authors = ["Derek Wan <d.wan@icloud.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+aerich = "^0.6.3"
 asyncpg = "^0.25.0"
 fastapi = "^0.75.2"
 tortoise-orm = "^0.19.0"
