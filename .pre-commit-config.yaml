@@ -3,6 +3,8 @@ ci:
 
 default_stages: [commit]
 
+exclude: ^src/(migrations/|pyproject.toml)
+
 repos:
   # fixers
   - repo: https://github.com/asottile/pyupgrade
