@@ -96,9 +96,10 @@ repos:
       - id: isort
   # others
   - repo: https://github.com/dycw/pre-commit-hooks
-    rev: 0.4.14
+    rev: 0.4.15
     hooks:
       - id: run-bump2version
         args: [--setup-cfg]
       - id: run-dockfmt
       - id: run-poetry-export
+        args: [--filename=src/requirements.txt]
