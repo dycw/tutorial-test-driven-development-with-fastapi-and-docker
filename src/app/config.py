@@ -10,10 +10,10 @@ log = getLogger("uvicorn")
 
 class Settings(BaseSettings):
     environment: str = getenv("ENVIRONMENT", "dev")
-    testing: bool = getenv("TESTING", "") == "TESTING"
+    testing: bool = getenv("TESTING", 0)  # type: ignore
 
 
 @lru_cache
-async def get_settings() -> BaseSettings:
+def get_settings() -> BaseSettings:
     log.info("Loading config settings from the environment...")
     return Settings()
