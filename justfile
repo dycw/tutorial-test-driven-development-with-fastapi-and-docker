@@ -4,14 +4,8 @@ set positional-arguments := true
 build:
   docker-compose build
 
-@run *args='':
-  docker-compose run app "$@"
-
-@manage *args='':
-  just run python manage.py "$@"
-
-@test *args='.':
-  just manage test "$@"
+logs-web:
+  docker-compose logs web
 
 up:
   docker-compose up -d

@@ -3,6 +3,7 @@ from logging import getLogger
 from os import getenv
 
 from pydantic import BaseSettings
+from pydantic.networks import AnyUrl
 
 
 log = getLogger("uvicorn")
@@ -11,6 +12,7 @@ log = getLogger("uvicorn")
 class Settings(BaseSettings):
     environment: str = getenv("ENVIRONMENT", "dev")
     testing: bool = getenv("TESTING", 0)  # type: ignore
+    database_url: AnyUrl = getenv("DATABASE_URL")  # type: ignore
 
 
 @lru_cache
