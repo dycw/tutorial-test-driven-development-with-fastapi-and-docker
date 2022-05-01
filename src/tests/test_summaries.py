@@ -126,30 +126,6 @@ def test_update_summary(test_app_with_db: TestClient) -> None:
 
 
 @beartype
-def test_update_summary_invalid_json(test_app_with_db: TestClient) -> None:
-    response = test_app_with_db.post(
-        "/summaries/", data=dumps({"url": "https://foo.bar"})
-    )
-    summary_id = response.json()["id"]
-    response = test_app_with_db.put(f"/summaries/{summary_id}/", data=dumps({}))
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-    assert response.json() == {
-        "detail": [
-            {
-                "loc": ["body", "url"],
-                "msg": "field required",
-                "type": "value_error.missing",
-            },
-            {
-                "loc": ["body", "summary"],
-                "msg": "field required",
-                "type": "value_error.missing",
-            },
-        ]
-    }
-
-
-@beartype
 def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
     payload = {"url": "https://foo.bar"}
     response = test_app_with_db.post("/summaries/", data=dumps(payload))
@@ -192,6 +168,24 @@ def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
                 }
             ],
             id="incorrect id; not > 0",
+        ),
+        param(
+            1,
+            {},
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            [
+                {
+                    "loc": ["body", "url"],
+                    "msg": "field required",
+                    "type": "value_error.missing",
+                },
+                {
+                    "loc": ["body", "summary"],
+                    "msg": "field required",
+                    "type": "value_error.missing",
+                },
+            ],
+            id="invalid JSON",
         ),
     ],
 )
