@@ -1,5 +1,6 @@
 from typing import cast
 
+from beartype import beartype
 from fastapi import APIRouter
 from fastapi import status
 
@@ -11,6 +12,7 @@ from app.models.pydantic import SummaryResponseSchema
 router = APIRouter()
 
 
+@beartype
 @router.post(
     "/",
     response_model=SummaryResponseSchema,

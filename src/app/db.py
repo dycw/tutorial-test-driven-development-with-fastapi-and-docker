@@ -1,6 +1,7 @@
 from logging import getLogger
 from os import getenv
 
+from beartype import beartype
 from fastapi import FastAPI
 from tortoise import Tortoise
 from tortoise import run_async
@@ -21,6 +22,7 @@ TORTOISE_ORM = {
 }
 
 
+@beartype
 def init_db(app: FastAPI, /) -> None:
     register_tortoise(
         app,
@@ -31,6 +33,7 @@ def init_db(app: FastAPI, /) -> None:
     )
 
 
+@beartype
 async def generate_schema() -> None:
     _LOGGER.info("Initializing Tortoise...")
     await Tortoise.init(
