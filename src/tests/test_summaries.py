@@ -27,7 +27,9 @@ def test_create_summaries_invalid_json(test_app: TestClient) -> None:
             }
         ]
     }
-    response = test_app.post("/summaries/", data=dumps({"url": "invalid://url"}))
+    response = test_app.post(
+        "/summaries/", data=dumps({"url": "invalid://url"})
+    )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
     assert response.json()["detail"][0]["msg"] == "URL scheme not permitted"
 
@@ -92,6 +94,18 @@ def test_remove_summary_incorrect_id(test_app_with_db: TestClient) -> None:
     response = test_app_with_db.delete("/summaries/999/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json()["detail"] == "Summary not found"
+    response = test_app_with_db.delete("/summaries/0/")
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.json() == {
+        "detail": [
+            {
+                "loc": ["path", "id"],
+                "msg": "ensure this value is greater than 0",
+                "type": "value_error.number.not_gt",
+                "ctx": {"limit_value": 0},
+            }
+        ]
+    }
 
 
 @beartype
@@ -113,12 +127,22 @@ def test_update_summary(test_app_with_db: TestClient) -> None:
 
 @beartype
 def test_update_summary_incorrect_id(test_app_with_db: TestClient) -> None:
-    response = test_app_with_db.put(
-        "/summaries/999/",
-        data=dumps({"url": "https://foo.bar", "summary": "updated!"}),
-    )
+    payload = {"url": "https://foo.bar", "summary": "updated!"}
+    response = test_app_with_db.put("/summaries/999/", data=dumps(payload))
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json()["detail"] == "Summary not found"
+    response = test_app_with_db.put("/summaries/0/", data=dumps(payload))
+    assert response.status_code == 422
+    assert response.json() == {
+        "detail": [
+            {
+                "loc": ["path", "id"],
+                "msg": "ensure this value is greater than 0",
+                "type": "value_error.number.not_gt",
+                "ctx": {"limit_value": 0},
+            }
+        ]
+    }
 
 
 @beartype
@@ -150,7 +174,9 @@ def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
     payload = {"url": "https://foo.bar"}
     response = test_app_with_db.post("/summaries/", data=dumps(payload))
     summary_id = response.json()["id"]
-    response = test_app_with_db.put(f"/summaries/{summary_id}/", data=dumps(payload))
+    response = test_app_with_db.put(
+        f"/summaries/{summary_id}/", data=dumps(payload)
+    )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
     assert response.json() == {
         "detail": [
@@ -161,3 +187,9 @@ def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
             }
         ]
     }
+    response = test_app_with_db.put(
+        f"/summaries/{summary_id}/",
+        data=dumps({"url": "invalid://url", "summary": "updated!"}),
+    )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.json()["detail"][0]["msg"] == "URL scheme not permitted"
