@@ -16,7 +16,7 @@ psql:
   docker-compose exec web-db psql -U postgres
 
 @test *args='.':
-  docker-compose exec web python -m pytest "$@"
+  docker-compose exec web python -m pytest "$@" --cov=. --cov-report=html
 
 up:
   docker-compose up -d --build
