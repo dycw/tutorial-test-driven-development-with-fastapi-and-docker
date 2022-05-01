@@ -7,8 +7,8 @@ down:
 logs-web:
   docker-compose logs web
 
+@test *args='.':
+  docker-compose exec web python -m pytest "$@"
+
 up:
   docker-compose up -d --build
-
-@watch-test *args='.':
-  watchexec -w=app/ -- just test "$@"

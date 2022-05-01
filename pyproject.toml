@@ -17,15 +17,17 @@ src_paths = "src"
 
 [tool.poetry]
 name = "app"
-version = "0.0.4"
+version = "0.0.5"
 description = "The `Test-Driven Development with FastAPI and Docker` course"
 authors = ["Derek Wan <d.wan@icloud.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+# core
 aerich = "^0.6.3"
 asyncpg = "^0.25.0"
 fastapi = "^0.75.2"
+requests = "^2.27.1"
 tortoise-orm = "^0.19.0"
 uvicorn = "^0.17.6"
 
@@ -55,14 +57,6 @@ flake8-unused-arguments = "^0.0.10"
 pytest = "^7.1.2"
 pytest-instafail = "^0.4.2"
 pytest-xdist = "^2.5.0"
-
-[tool.pytest.ini_options]
-addopts = ["-rsxX", "--color=auto", "--strict-markers"]
-filterwarnings = ["error", "ignore::DeprecationWarning"]
-looponfailroots = "src"
-minversion = "7.0"
-testpaths = "src/tests"
-xfail_strict = true
 
 [tool.pyright]
 include = ["src"]

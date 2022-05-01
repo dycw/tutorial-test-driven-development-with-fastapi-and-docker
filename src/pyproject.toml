@@ -2,3 +2,10 @@
 tortoise_orm = "app.db.TORTOISE_ORM"
 location = "./migrations"
 src_folder = "./."
+
+[tool.pytest.ini_options]
+addopts = ["-rsxX", "--color=yes", "--strict-markers"]
+filterwarnings = ["error", "ignore::DeprecationWarning"]
+minversion = "7.0"
+testpaths = "tests"
+xfail_strict = true
