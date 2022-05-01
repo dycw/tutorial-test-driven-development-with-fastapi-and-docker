@@ -23,7 +23,7 @@ TORTOISE_ORM = {
 
 
 @beartype
-def init_db(app: FastAPI, /) -> None:
+def init_db(*, app: FastAPI) -> None:
     register_tortoise(
         app,
         db_url=getenv("DATABASE_URL"),

@@ -26,7 +26,7 @@ APP = create_application()
 @beartype
 async def startup_event() -> None:
     _LOGGER.info("Starting up...")
-    init_db(APP)
+    init_db(app=APP)
 
 
 @APP.on_event("shutdown")  # type: ignore

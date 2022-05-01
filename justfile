@@ -1,3 +1,5 @@
+alias t := test
+
 set dotenv-load := true
 set positional-arguments := true
 

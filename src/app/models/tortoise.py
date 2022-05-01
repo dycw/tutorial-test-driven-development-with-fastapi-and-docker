@@ -1,3 +1,4 @@
+from tortoise.contrib.pydantic.creator import pydantic_model_creator
 from tortoise.fields import DatetimeField
 from tortoise.fields import IntField
 from tortoise.fields import TextField
@@ -12,3 +13,6 @@ class TextSummary(Model):
 
     def __str__(self) -> str:
         return self.url
+
+
+SummarySchema = pydantic_model_creator(TextSummary)
