@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from app.api.ping import router
 from app.db import init_db
-from app.logging import UVICORN_LOGGER
+from app.log import UVICORN_LOGGER
 
 
 def create_application() -> FastAPI:

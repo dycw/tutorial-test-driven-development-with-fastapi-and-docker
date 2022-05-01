@@ -7,6 +7,9 @@ down:
 logs-web:
   docker-compose logs web
 
+psql:
+  docker-compose exec web-db psql -U postgres
+
 @test *args='.':
   docker-compose exec web python -m pytest "$@"
 

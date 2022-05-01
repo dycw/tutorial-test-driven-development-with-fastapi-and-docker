@@ -4,7 +4,7 @@ from os import getenv
 from pydantic import BaseSettings
 from pydantic.networks import AnyUrl
 
-from app.logging import UVICORN_LOGGER
+from app.log import UVICORN_LOGGER
 
 
 class Settings(BaseSettings):
