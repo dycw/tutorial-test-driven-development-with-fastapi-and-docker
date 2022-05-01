@@ -1,8 +1,12 @@
+from logging import getLogger
+
 from fastapi import FastAPI
 
 from app.api.ping import router
 from app.db import init_db
-from app.log import UVICORN_LOGGER
+
+
+_LOGGER = getLogger("uvicorn")
 
 
 def create_application() -> FastAPI:
@@ -11,15 +15,15 @@ def create_application() -> FastAPI:
     return app
 
 
-app = create_application()
+APPLICATION = create_application()
 
 
-@app.on_event("startup")  # type: ignore
+@APPLICATION.on_event("startup")  # type: ignore
 async def startup_event() -> None:
-    UVICORN_LOGGER.info("Starting up...")
-    init_db(app)
+    _LOGGER.info("Starting up...")
+    init_db(APPLICATION)
 
 
-@app.on_event("shutdown")  # type: ignore
+@APPLICATION.on_event("shutdown")  # type: ignore
 async def shutdown_event() -> None:
-    UVICORN_LOGGER.info("Shutting down...")
+    _LOGGER.info("Shutting down...")
