@@ -125,26 +125,6 @@ def test_update_summary(test_app_with_db: TestClient) -> None:
     assert response_dict["created_at"]
 
 
-@beartype
-def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
-    payload = {"url": "https://foo.bar"}
-    response = test_app_with_db.post("/summaries/", data=dumps(payload))
-    summary_id = response.json()["id"]
-    response = test_app_with_db.put(
-        f"/summaries/{summary_id}/", data=dumps(payload)
-    )
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-    assert response.json() == {
-        "detail": [
-            {
-                "loc": ["body", "summary"],
-                "msg": "field required",
-                "type": "value_error.missing",
-            }
-        ]
-    }
-
-
 @mark.parametrize(
     ["summary_id", "payload", "status_code", "detail"],
     [
@@ -186,6 +166,19 @@ def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
                 },
             ],
             id="invalid JSON",
+        ),
+        param(
+            1,
+            {"url": "https://foo.bar"},
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            [
+                {
+                    "loc": ["body", "summary"],
+                    "msg": "field required",
+                    "type": "value_error.missing",
+                }
+            ],
+            id="invalid keys",
         ),
     ],
 )
