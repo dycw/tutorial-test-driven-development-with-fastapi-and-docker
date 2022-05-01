@@ -42,9 +42,10 @@ async def put(*, id: int, payload: SummaryUpdatePayloadSchema) -> dict[str, Any]
     summaries = TextSummary.filter(id=id)
     if (await summaries.update(url=payload.url, summary=payload.summary)) is None:
         return None
-    if (first := summaries.first()) is None:
-        return None
-    elif isinstance(first_values := await first.values(), dict):
-        return first_values
+    if (first := summaries.first()) is not None:
+        if isinstance(fvalues := await first.values(), dict) or (fvalues is None):
+            return fvalues
+        else:
+            raise TypeError(f"Invaild type: {fvalues}")
     else:
-        raise TypeError(f"Invaild type: {first_values}")
+        return None
