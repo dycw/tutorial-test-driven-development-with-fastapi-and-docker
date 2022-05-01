@@ -103,4 +103,6 @@ repos:
       - id: run-bump2version
         args: [--setup-cfg]
       - id: run-poetry-export
-        args: [--filename=src/requirements.txt, --dev]
+        args: [--filename=src/requirements.txt]
+      - id: run-poetry-export
+        args: [--filename=src/requirements-dev.txt, --dev]
