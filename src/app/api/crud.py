@@ -2,8 +2,7 @@ from typing import Any
 
 from beartype import beartype
 
-from app.models.pydantic import SummaryPayloadSchema
-from app.models.pydantic import SummaryUpdatePayloadSchema
+from app.models.pydantic import SummaryPayloadSchema, SummaryUpdatePayloadSchema
 from app.models.tortoise import TextSummary
 
 

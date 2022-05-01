@@ -6,7 +6,6 @@ from beartype import beartype
 from pydantic import BaseSettings
 from pydantic.networks import AnyUrl
 
-
 _LOGGER = getLogger("uvicorn")
 
 
