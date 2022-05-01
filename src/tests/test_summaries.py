@@ -27,6 +27,9 @@ def test_create_summaries_invalid_json(test_app: TestClient) -> None:
             }
         ]
     }
+    response = test_app.post("/summaries/", data=dumps({"url": "invalid://url"}))
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.json()["detail"][0]["msg"] == "URL scheme not permitted"
 
 
 @beartype
