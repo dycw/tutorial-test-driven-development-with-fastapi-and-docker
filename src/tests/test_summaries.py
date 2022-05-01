@@ -4,14 +4,23 @@ from typing import Any
 from beartype import beartype
 from fastapi import status
 from fastapi.testclient import TestClient
-
-#
+from pytest import MonkeyPatch
 from pytest import mark
 from pytest import param
 
+from app.api import summaries
+
 
 @beartype
-def test_create_summary(test_app_with_db: TestClient) -> None:
+def mock_generate_summary(*args: Any, **kwargs: Any) -> None:
+    return None
+
+
+@beartype
+def test_create_summary(
+    test_app_with_db: TestClient, monkeypatch: MonkeyPatch
+) -> None:
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
     response = test_app_with_db.post(
         "/summaries/", data=dumps({"url": "https://foo.bar"})
     )
@@ -35,7 +44,10 @@ def test_create_summaries_invalid_json(test_app: TestClient) -> None:
 
 
 @beartype
-def test_read_summary(test_app_with_db: TestClient) -> None:
+def test_read_summary(
+    test_app_with_db: TestClient, monkeypatch: MonkeyPatch
+) -> None:
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
     payload = {"url": "https://foo.bar"}
     response = test_app_with_db.post("/summaries/", data=dumps(payload))
     summary_id = response.json()["id"]
@@ -44,7 +56,6 @@ def test_read_summary(test_app_with_db: TestClient) -> None:
     response_dict = response.json()
     assert response_dict["id"] == summary_id
     assert response_dict["url"] == payload["url"]
-    assert response_dict["summary"]
     assert response_dict["created_at"]
 
 
@@ -68,7 +79,10 @@ def test_read_summary_incorrect_id(test_app_with_db: TestClient) -> None:
 
 
 @beartype
-def test_read_all_summaries(test_app_with_db: TestClient) -> None:
+def test_read_all_summaries(
+    test_app_with_db: TestClient, monkeypatch: MonkeyPatch
+) -> None:
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
     response = test_app_with_db.post(
         "/summaries/", data=dumps({"url": "https://foo.bar"})
     )
@@ -80,7 +94,10 @@ def test_read_all_summaries(test_app_with_db: TestClient) -> None:
 
 
 @beartype
-def test_remove_summary(test_app_with_db: TestClient) -> None:
+def test_remove_summary(
+    test_app_with_db: TestClient, monkeypatch: MonkeyPatch
+) -> None:
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
     payload = {"url": "https://foo.bar"}
     response = test_app_with_db.post("/summaries/", data=dumps(payload))
     summary_id = response.json()["id"]
@@ -109,7 +126,10 @@ def test_remove_summary_incorrect_id(test_app_with_db: TestClient) -> None:
 
 
 @beartype
-def test_update_summary(test_app_with_db: TestClient) -> None:
+def test_update_summary(
+    test_app_with_db: TestClient, monkeypatch: MonkeyPatch
+) -> None:
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
     payload = {"url": "https://foo.bar"}
     response = test_app_with_db.post("/summaries/", data=dumps(payload))
     summary_id = response.json()["id"]

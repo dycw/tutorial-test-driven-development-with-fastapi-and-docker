@@ -26,7 +26,7 @@ async def get_all() -> list[dict[str, Any]]:
 
 @beartype
 async def post(*, payload: SummaryPayloadSchema) -> int:
-    summary = TextSummary(url=payload.url, summary="dummy summary")
+    summary = TextSummary(url=payload.url, summary="")
     await summary.save()
     return summary.id
 
@@ -38,12 +38,18 @@ async def delete(*, id: int) -> None:
 
 
 @beartype
-async def put(*, id: int, payload: SummaryUpdatePayloadSchema) -> dict[str, Any] | None:
+async def put(
+    *, id: int, payload: SummaryUpdatePayloadSchema
+) -> dict[str, Any] | None:
     summaries = TextSummary.filter(id=id)
-    if (await summaries.update(url=payload.url, summary=payload.summary)) is None:
+    if (
+        await summaries.update(url=payload.url, summary=payload.summary)
+    ) is None:
         return None
     if (first := summaries.first()) is not None:
-        if isinstance(fvalues := await first.values(), dict) or (fvalues is None):
+        if isinstance(fvalues := await first.values(), dict) or (
+            fvalues is None
+        ):
             return fvalues
         else:
             raise TypeError(f"Invaild type: {fvalues}")
