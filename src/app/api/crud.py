@@ -38,12 +38,18 @@ async def delete(*, id: int) -> None:
 
 
 @beartype
-async def put(*, id: int, payload: SummaryUpdatePayloadSchema) -> dict[str, Any] | None:
+async def put(
+    *, id: int, payload: SummaryUpdatePayloadSchema
+) -> dict[str, Any] | None:
     summaries = TextSummary.filter(id=id)
-    if (await summaries.update(url=payload.url, summary=payload.summary)) is None:
+    if (
+        await summaries.update(url=payload.url, summary=payload.summary)
+    ) is None:
         return None
     if (first := summaries.first()) is not None:
-        if isinstance(fvalues := await first.values(), dict) or (fvalues is None):
+        if isinstance(fvalues := await first.values(), dict) or (
+            fvalues is None
+        ):
             return fvalues
         else:
             raise TypeError(f"Invaild type: {fvalues}")
