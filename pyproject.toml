@@ -17,7 +17,7 @@ src_paths = "src"
 
 [tool.poetry]
 name = "app"
-version = "0.0.11"
+version = "0.0.12"
 description = "The `Test-Driven Development with FastAPI and Docker` course"
 authors = ["Derek Wan <d.wan@icloud.com>"]
 

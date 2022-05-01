@@ -5,11 +5,14 @@ from fastapi import APIRouter
 from fastapi import HTTPException
 from fastapi import status
 
+from app.api.crud import delete
 from app.api.crud import get
 from app.api.crud import get_all
 from app.api.crud import post
+from app.api.crud import put
 from app.models.pydantic import SummaryPayloadSchema
 from app.models.pydantic import SummaryResponseSchema
+from app.models.pydantic import SummaryUpdatePayloadSchema
 from app.models.tortoise import SummarySchema
 
 
@@ -42,3 +45,26 @@ async def read_summary(*, id: int) -> dict[str, Any]:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Summary not found"
         )
+
+
+@router.delete("/{id}/", response_model=SummaryResponseSchema)
+async def delete_summary(*, id: int) -> dict[str, Any]:
+    if (summary := await get(id=id)) is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Summary not found"
+        )
+    else:
+        await delete(id=id)
+        return summary
+
+
+@router.put("/{id}/", response_model=SummarySchema)
+async def update_summary(
+    *, id: int, payload: SummaryUpdatePayloadSchema
+) -> dict[str, Any]:
+    if (summary := await put(id=id, payload=payload)) is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Summary not found"
+        )
+    else:
+        return summary
