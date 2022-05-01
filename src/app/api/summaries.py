@@ -3,13 +3,17 @@ from typing import Any
 from beartype import beartype
 from fastapi import APIRouter
 from fastapi import HTTPException
+from fastapi import Path
 from fastapi import status
 
+from app.api.crud import delete
 from app.api.crud import get
 from app.api.crud import get_all
 from app.api.crud import post
+from app.api.crud import put
 from app.models.pydantic import SummaryPayloadSchema
 from app.models.pydantic import SummaryResponseSchema
+from app.models.pydantic import SummaryUpdatePayloadSchema
 from app.models.tortoise import SummarySchema
 
 
@@ -35,10 +39,30 @@ async def create_summary(*, payload: SummaryPayloadSchema) -> dict[str, Any]:
 
 @router.get("/{id}/", response_model=SummarySchema)
 @beartype
-async def read_summary(*, id: int) -> dict[str, Any]:
-    if (summary := await get(id=id)) is not None:
-        return summary
-    else:
+async def read_summary(*, id: int = Path(..., gt=0)) -> dict[str, Any]:
+    if (summary := await get(id=id)) is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Summary not found"
         )
+    return summary
+
+
+@router.delete("/{id}/", response_model=SummaryResponseSchema)
+async def delete_summary(*, id: int = Path(..., gt=0)) -> dict[str, Any]:
+    if (summary := await get(id=id)) is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Summary not found"
+        )
+    await delete(id=id)
+    return summary
+
+
+@router.put("/{id}/", response_model=SummarySchema)
+async def update_summary(
+    *, id: int = Path(..., gt=0), payload: SummaryUpdatePayloadSchema
+) -> dict[str, Any]:
+    if (summary := await put(id=id, payload=payload)) is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Summary not found"
+        )
+    return summary

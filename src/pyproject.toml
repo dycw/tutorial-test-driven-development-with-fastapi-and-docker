@@ -3,6 +3,11 @@ tortoise_orm = "app.db.TORTOISE_ORM"
 location = "./migrations"
 src_folder = "./."
 
+[tool.black]
+line-length = 80
+skip-magic-trailing-comma = true
+target-version = ["py310"]
+
 [tool.isort]
 atomic = true
 case_sensitive = true
