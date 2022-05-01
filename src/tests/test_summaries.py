@@ -126,25 +126,6 @@ def test_update_summary(test_app_with_db: TestClient) -> None:
 
 
 @beartype
-def test_update_summary_incorrect_id(test_app_with_db: TestClient) -> None:
-    response = test_app_with_db.put(
-        "/summaries/0/",
-        data=dumps({"url": "https://foo.bar", "summary": "updated!"}),
-    )
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-    assert response.json() == {
-        "detail": [
-            {
-                "loc": ["path", "id"],
-                "msg": "ensure this value is greater than 0",
-                "type": "value_error.number.not_gt",
-                "ctx": {"limit_value": 0},
-            }
-        ]
-    }
-
-
-@beartype
 def test_update_summary_invalid_json(test_app_with_db: TestClient) -> None:
     response = test_app_with_db.post(
         "/summaries/", data=dumps({"url": "https://foo.bar"})
@@ -196,8 +177,22 @@ def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
             {"url": "https://foo.bar", "summary": "updated!"},
             status.HTTP_404_NOT_FOUND,
             "Summary not found",
-            id="incorrect id",
-        )
+            id="incorrect id; not found",
+        ),
+        param(
+            0,
+            {"url": "https://foo.bar", "summary": "updated!"},
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            [
+                {
+                    "loc": ["path", "id"],
+                    "msg": "ensure this value is greater than 0",
+                    "type": "value_error.number.not_gt",
+                    "ctx": {"limit_value": 0},
+                }
+            ],
+            id="incorrect id; not > 0",
+        ),
     ],
 )
 @beartype
