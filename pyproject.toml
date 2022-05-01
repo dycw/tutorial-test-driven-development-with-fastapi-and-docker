@@ -17,7 +17,7 @@ src_paths = "src"
 
 [tool.poetry]
 name = "app"
-version = "0.0.6"
+version = "0.0.7"
 description = "The `Test-Driven Development with FastAPI and Docker` course"
 authors = ["Derek Wan <d.wan@icloud.com>"]
 
@@ -30,6 +30,7 @@ fastapi = "^0.75.2"
 requests = "^2.27.1"
 tortoise-orm = "^0.19.0"
 uvicorn = "^0.17.6"
+beartype = "^0.10.4"
 
 [tool.poetry.dev-dependencies]
 # development

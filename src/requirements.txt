@@ -49,6 +49,9 @@ attrs==21.4.0; python_version >= "3.7" and python_full_version < "3.0.0" and pyt
 bandit==1.7.4; python_version >= "3.7" \
     --hash=sha256:412d3f259dab4077d0e7f0c11f50f650cc7d10db905d98f6520a95a18049658a \
     --hash=sha256:2d63a8c573417bae338962d4b9b06fbc6080f74ecd955a092849e1e65c717bd2
+beartype==0.10.4; python_full_version >= "3.6.0" \
+    --hash=sha256:1a65453bc25b39979bf5ad65fe5e73350551282956456d828fb5783468649e3e \
+    --hash=sha256:24ec69f6a7f4e6e97af403d08de270def3248518060327095d23b1c4df64bf2a
 black==22.3.0; python_full_version >= "3.6.2" \
     --hash=sha256:2497f9c2386572e28921fa8bec7be3e51de6801f7459dffd6e62492531c47e09 \
     --hash=sha256:5795a0375eb87bfe902e80e0c8cfaedf8af4d49694d69161e5bd3206c18618bb \
