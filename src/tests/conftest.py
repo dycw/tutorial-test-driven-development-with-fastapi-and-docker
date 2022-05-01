@@ -6,7 +6,7 @@ from starlette.testclient import TestClient
 
 from app.config import Settings
 from app.config import get_settings
-from app.main import app
+from app.main import create_application
 
 
 def get_settings_override() -> Settings:
@@ -17,6 +17,7 @@ def get_settings_override() -> Settings:
 
 @fixture(scope="module")
 def test_app() -> Iterator[TestClient]:
+    app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
     with TestClient(app) as test_client:
         yield test_client

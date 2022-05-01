@@ -1,22 +1,25 @@
-from os import getenv
-
 from fastapi import FastAPI
-from tortoise.contrib.fastapi import register_tortoise
 
 from app.api.ping import router
+from app.db import init_db
+from app.logging import UVICORN_LOGGER
 
 
 def create_application() -> FastAPI:
     app = FastAPI()
-    register_tortoise(
-        app,
-        db_url=getenv("DATABASE_URL"),
-        modules={"models": ["app.models.tortoise"]},
-        generate_schemas=False,
-        add_exception_handlers=True,
-    )
     app.include_router(router)
     return app
 
 
 app = create_application()
+
+
+@app.on_event("startup")  # type: ignore
+async def startup_event() -> None:
+    UVICORN_LOGGER.info("Starting up...")
+    init_db(app)
+
+
+@app.on_event("shutdown")  # type: ignore
+async def shutdown_event() -> None:
+    UVICORN_LOGGER.info("Shutting down...")
