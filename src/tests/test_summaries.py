@@ -1,8 +1,13 @@
 from json import dumps
+from typing import Any
 
 from beartype import beartype
 from fastapi import status
 from fastapi.testclient import TestClient
+
+#
+from pytest import mark
+from pytest import param
 
 
 @beartype
@@ -27,11 +32,6 @@ def test_create_summaries_invalid_json(test_app: TestClient) -> None:
             }
         ]
     }
-    response = test_app.post(
-        "/summaries/", data=dumps({"url": "invalid://url"})
-    )
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-    assert response.json()["detail"][0]["msg"] == "URL scheme not permitted"
 
 
 @beartype
@@ -127,12 +127,11 @@ def test_update_summary(test_app_with_db: TestClient) -> None:
 
 @beartype
 def test_update_summary_incorrect_id(test_app_with_db: TestClient) -> None:
-    payload = {"url": "https://foo.bar", "summary": "updated!"}
-    response = test_app_with_db.put("/summaries/999/", data=dumps(payload))
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.json()["detail"] == "Summary not found"
-    response = test_app_with_db.put("/summaries/0/", data=dumps(payload))
-    assert response.status_code == 422
+    response = test_app_with_db.put(
+        "/summaries/0/",
+        data=dumps({"url": "https://foo.bar", "summary": "updated!"}),
+    )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
     assert response.json() == {
         "detail": [
             {
@@ -187,8 +186,39 @@ def test_update_summary_invalid_keys(test_app_with_db: TestClient) -> None:
             }
         ]
     }
+
+
+@mark.parametrize(
+    ["summary_id", "payload", "status_code", "detail"],
+    [
+        param(
+            999,
+            {"url": "https://foo.bar", "summary": "updated!"},
+            status.HTTP_404_NOT_FOUND,
+            "Summary not found",
+            id="incorrect id",
+        )
+    ],
+)
+@beartype
+def test_update_summary_invalid(
+    test_app_with_db: TestClient,
+    summary_id: int,
+    payload: dict[str, Any],
+    status_code: int,
+    detail: str | list[dict[str, Any]],
+) -> None:
     response = test_app_with_db.put(
-        f"/summaries/{summary_id}/",
+        f"/summaries/{summary_id}/", data=dumps(payload)
+    )
+    assert response.status_code == status_code
+    assert response.json() == {"detail": detail}
+
+
+@beartype
+def test_update_summary_invalid_url(test_app: TestClient) -> None:
+    response = test_app.put(
+        "/summaries/1/",
         data=dumps({"url": "invalid://url", "summary": "updated!"}),
     )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
