@@ -26,6 +26,9 @@ up:
 
 #### production ###############################################################
 
+prod-build:
+  docker build -f src/Dockerfile.prod -t web ./src
+
 prod-build-github:
   docker build -f src/Dockerfile.prod \
     -t docker.pkg.github.com/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest \
@@ -35,7 +38,11 @@ prod-build-heroku:
   docker build -f src/Dockerfile.prod \
     -t registry.heroku.com/polar-wave-90516/web ./src
 
-prod-run:
+prod-run-local:
+  docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
+    -p 5003:8765 web:latest
+
+prod-run-heroku:
   docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
     -p 5003:8765 registry.heroku.com/polar-wave-90516/web:latest
 
