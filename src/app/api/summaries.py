@@ -2,6 +2,7 @@ from typing import Any
 
 from beartype import beartype
 from fastapi import APIRouter
+from fastapi import BackgroundTasks
 from fastapi import HTTPException
 from fastapi import Path
 from fastapi import status
@@ -15,6 +16,7 @@ from app.models.pydantic import SummaryPayloadSchema
 from app.models.pydantic import SummaryResponseSchema
 from app.models.pydantic import SummaryUpdatePayloadSchema
 from app.models.tortoise import SummarySchema
+from app.summarizer import generate_summary
 
 
 router = APIRouter()
@@ -32,9 +34,13 @@ async def read_all_summaries() -> list[dict[str, Any]]:
     status_code=status.HTTP_201_CREATED,
 )
 @beartype
-async def create_summary(*, payload: SummaryPayloadSchema) -> dict[str, Any]:
+async def create_summary(
+    *, payload: SummaryPayloadSchema, background_tasks: BackgroundTasks
+) -> dict[str, Any]:
     summary_id = await post(payload=payload)
-    return {"id": summary_id, "url": payload.url}
+    url = payload.url
+    background_tasks.add_task(generate_summary, summary_id=summary_id, url=url)
+    return {"id": summary_id, "url": url}
 
 
 @router.get("/{id}/", response_model=SummarySchema)

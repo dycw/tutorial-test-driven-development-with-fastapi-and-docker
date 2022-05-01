@@ -3,9 +3,11 @@ from newspaper import Article
 from nltk import download
 from nltk.data import find
 
+from app.models.tortoise import TextSummary
+
 
 @beartype
-def generate_summary(url: str) -> str:
+async def generate_summary(*, summary_id: int, url: str) -> None:
     article = Article(url)
     article.download()
     article.parse()
@@ -15,4 +17,4 @@ def generate_summary(url: str) -> str:
         download("punkt")
     finally:
         article.nlp()
-    return article.summary
+    _ = await TextSummary.filter(id=summary_id).update(summary=article.summary)

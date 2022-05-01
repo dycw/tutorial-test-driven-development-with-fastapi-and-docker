@@ -5,7 +5,6 @@ from beartype import beartype
 from app.models.pydantic import SummaryPayloadSchema
 from app.models.pydantic import SummaryUpdatePayloadSchema
 from app.models.tortoise import TextSummary
-from app.summarizer import generate_summary
 
 
 @beartype
@@ -27,8 +26,7 @@ async def get_all() -> list[dict[str, Any]]:
 
 @beartype
 async def post(*, payload: SummaryPayloadSchema) -> int:
-    article_summary = generate_summary(url := payload.url)
-    summary = TextSummary(url=url, summary=article_summary)
+    summary = TextSummary(url=payload.url, summary="")
     await summary.save()
     return summary.id
 

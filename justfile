@@ -3,14 +3,17 @@ alias t := test
 set dotenv-load := true
 set positional-arguments := true
 
+db-migrate:
+  docker-compose exec web aerich migrate
+
+db-upgrade:
+  docker-compose exec web aerich upgrade
+
 down:
   docker-compose down
 
 logs-web:
   docker-compose logs web
-
-migrate:
-  docker-compose exec web aerich migrate
 
 psql:
   docker-compose exec web-db psql -U postgres
