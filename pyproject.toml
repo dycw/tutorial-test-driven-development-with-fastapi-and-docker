@@ -17,7 +17,7 @@ src_paths = "src"
 
 [tool.poetry]
 name = "app"
-version = "0.0.8"
+version = "0.0.9"
 description = "The `Test-Driven Development with FastAPI and Docker` course"
 authors = ["Derek Wan <d.wan@icloud.com>"]
 
@@ -57,6 +57,7 @@ flake8-simplify = "^0.19.2"
 flake8-unused-arguments = "^0.0.10"
 # testing
 pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
 pytest-instafail = "^0.4.2"
 pytest-xdist = "^2.5.0"
 
