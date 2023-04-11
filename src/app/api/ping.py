@@ -1,12 +1,9 @@
 from typing import Any
 
 from beartype import beartype
-from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import APIRouter, Depends
 
-from app.config import Settings
-from app.config import get_settings
-
+from app.config import Settings, get_settings
 
 router = APIRouter()
 

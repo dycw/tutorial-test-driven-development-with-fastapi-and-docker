@@ -1,23 +1,16 @@
 from typing import Any
 
 from beartype import beartype
-from fastapi import APIRouter
-from fastapi import BackgroundTasks
-from fastapi import HTTPException
-from fastapi import Path
-from fastapi import status
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Path, status
 
-from app.api.crud import delete
-from app.api.crud import get
-from app.api.crud import get_all
-from app.api.crud import post
-from app.api.crud import put
-from app.models.pydantic import SummaryPayloadSchema
-from app.models.pydantic import SummaryResponseSchema
-from app.models.pydantic import SummaryUpdatePayloadSchema
+from app.api.crud import delete, get, get_all, post, put
+from app.models.pydantic import (
+    SummaryPayloadSchema,
+    SummaryResponseSchema,
+    SummaryUpdatePayloadSchema,
+)
 from app.models.tortoise import SummarySchema
 from app.summarizer import generate_summary
-
 
 router = APIRouter()
 

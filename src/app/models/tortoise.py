@@ -1,7 +1,5 @@
 from tortoise.contrib.pydantic.creator import pydantic_model_creator
-from tortoise.fields import DatetimeField
-from tortoise.fields import IntField
-from tortoise.fields import TextField
+from tortoise.fields import DatetimeField, IntField, TextField
 from tortoise.models import Model
 
 

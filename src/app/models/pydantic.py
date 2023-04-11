@@ -1,5 +1,4 @@
-from pydantic import AnyHttpUrl
-from pydantic import BaseModel
+from pydantic import AnyHttpUrl, BaseModel
 
 
 class SummaryPayloadSchema(BaseModel):

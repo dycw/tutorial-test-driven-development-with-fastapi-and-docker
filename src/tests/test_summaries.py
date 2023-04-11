@@ -4,9 +4,7 @@ from typing import Any
 from beartype import beartype
 from fastapi import status
 from fastapi.testclient import TestClient
-from pytest import MonkeyPatch
-from pytest import mark
-from pytest import param
+from pytest import MonkeyPatch, mark, param
 
 from app.api import summaries
 
@@ -146,7 +144,7 @@ def test_update_summary(
 
 
 @mark.parametrize(
-    ["summary_id", "payload", "status_code", "detail"],
+    ("summary_id", "payload", "status_code", "detail"),
     [
         param(
             999,

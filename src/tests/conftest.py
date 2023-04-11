@@ -6,8 +6,7 @@ from fastapi.testclient import TestClient
 from pytest import fixture
 from tortoise.contrib.fastapi import register_tortoise
 
-from app.config import Settings
-from app.config import get_settings
+from app.config import Settings, get_settings
 from app.main import create_application
 
 

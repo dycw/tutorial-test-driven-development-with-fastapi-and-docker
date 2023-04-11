@@ -3,10 +3,8 @@ from os import getenv
 
 from beartype import beartype
 from fastapi import FastAPI
-from tortoise import Tortoise
-from tortoise import run_async
+from tortoise import Tortoise, run_async
 from tortoise.contrib.fastapi import register_tortoise
-
 
 _LOGGER = getLogger("uvicorn")
 
