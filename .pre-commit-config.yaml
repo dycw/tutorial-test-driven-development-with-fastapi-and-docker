@@ -1,4 +1,4 @@
-exclude: ^src/app/db/migrations/
+exclude: ^src/migrations/models
 repos:
   # fixers
   - repo: https://github.com/charliermarsh/ruff-pre-commit
