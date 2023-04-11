@@ -4,25 +4,25 @@ set dotenv-load := true
 set positional-arguments := true
 
 db-migrate:
-  docker-compose exec web aerich migrate
+  docker compose exec web aerich migrate
 
 db-upgrade:
-  docker-compose exec web aerich upgrade
+  docker compose exec web aerich upgrade
 
 down:
-  docker-compose down
+  docker compose down
 
 logs-web:
-  docker-compose logs web
+  docker compose logs web
 
 psql:
-  docker-compose exec web-db psql -U postgres
+  docker compose exec web-db psql -U postgres
 
 @test *args='.':
-  docker-compose exec web python -m pytest "$@" --cov=. --cov-report=html
+  docker compose exec web python -m pytest "$@" --cov=. --cov-report=html
 
 up:
-  docker-compose up -d --build
+  docker compose up -d --build
 
 #### production ###############################################################
 

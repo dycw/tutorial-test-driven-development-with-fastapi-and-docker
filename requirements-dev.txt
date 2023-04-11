@@ -19,7 +19,7 @@ atomicwrites==1.4.1
     # via dycw-utilities
 attrs==22.2.0
     # via hypothesis
-beartype==0.13.0
+beartype==0.13.1
     # via
     #   app (pyproject.toml)
     #   dycw-utilities
