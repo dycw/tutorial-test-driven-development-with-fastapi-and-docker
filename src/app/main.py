@@ -1,35 +1,16 @@
-from logging import getLogger
-
 from beartype import beartype
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 
-from app.api import ping, summaries
-from app.db import init_db
+from app.config import Settings, get_settings
 
-_LOGGER = getLogger("uvicorn")
+app = FastAPI()
 
 
+@app.get("/ping")
 @beartype
-def create_application() -> FastAPI:
-    app = FastAPI()
-    app.include_router(ping.router)
-    app.include_router(
-        summaries.router, prefix="/summaries", tags=["summaries"]
-    )
-    return app
-
-
-APP = create_application()
-
-
-@APP.on_event("startup")  # type: ignore
-@beartype
-async def startup_event() -> None:
-    _LOGGER.info("Starting up...")
-    init_db(app=APP)
-
-
-@APP.on_event("shutdown")  # type: ignore
-@beartype
-async def shutdown_event() -> None:
-    _LOGGER.info("Shutting down...")
+async def pong(*, settings: Settings = Depends(get_settings)) -> dict[str, str | bool]:
+    return {
+        "ping": "pong!",
+        "environment": settings.environment,
+        "testing": settings.testing,
+    }
