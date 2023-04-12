@@ -17,6 +17,9 @@ db-upgrade:
 down:
   docker compose down
 
+lint:
+  docker compose exec web python -m black . --check && python -m ruff .
+
 logs-web:
   docker compose logs web
 

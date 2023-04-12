@@ -6,4 +6,4 @@ from starlette.testclient import TestClient
 def test_ping(*, test_app: TestClient) -> None:
     response = test_app.get("/ping")
     assert response.status_code == 200
-    assert response.json() == {"environment": "dev", "ping": "pong3", "testing": "True"}
+    assert response.json() == {"environment": "dev", "ping": "pong4", "testing": "True"}
