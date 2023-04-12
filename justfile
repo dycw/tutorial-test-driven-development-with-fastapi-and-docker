@@ -26,6 +26,18 @@ psql:
 up:
   docker compose up -d --build
 
+#### production ###############################################################
+
+prod-build:
+  docker build -f src/Dockerfile.prod -t web ./src
+
+prod-rm:
+  docker rm app -f
+
+prod-run:
+  docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
+    -p 5003:8765 web:latest
+
 #### heroku ###################################################################
 
 heroku-build:
@@ -45,22 +57,12 @@ heroku-release:
 heroku-migrate:
   heroku run aerich upgrade --app sheltered-falls-06080
 
-#### production ###############################################################
+#### github ###################################################################
 
-prod-build:
-  docker build -f src/Dockerfile.prod -t web ./src
-
-prod-build-github:
+github-build:
   docker build -f src/Dockerfile.prod \
-    -t docker.pkg.github.com/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest \
+    -t ghcr.io/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest \
     ./src
 
-prod-rm:
-  docker rm app -f
-
-prod-run:
-  docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
-    -p 5003:8765 web:latest
-
-prod-push-github:
-  docker push docker.pkg.github.com/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest
+github-push:
+  docker push ghcr.io/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest
