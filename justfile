@@ -5,6 +5,9 @@ set positional-arguments := true
 
 #### local ####################################################################
 
+black:
+  docker compose exec web python -m black --check .
+
 db-migrate:
   docker compose exec web aerich migrate
 
@@ -20,8 +23,14 @@ logs-web:
 psql:
   docker compose exec web-db psql -U postgres
 
+@ruff *args='.':
+  docker compose exec web python -m ruff "$@"
+
 @test *args='.':
   docker compose exec web python -m pytest "$@"
+
+@test-cov *args='.':
+  docker compose exec web python -m pytest "$@" --cov="."
 
 up:
   docker compose up -d --build

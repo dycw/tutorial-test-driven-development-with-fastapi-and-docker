@@ -2,14 +2,13 @@ from collections.abc import Iterator
 from os import environ
 from typing import cast
 
+from app.config import Settings, get_settings
+from app.main import create_application
 from beartype import beartype
 from pydantic import AnyUrl
 from pytest import fixture
 from starlette.testclient import TestClient
 from tortoise.contrib.fastapi import register_tortoise
-
-from app.config import Settings, get_settings
-from app.main import create_application
 
 
 @beartype

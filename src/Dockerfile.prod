@@ -27,8 +27,9 @@ RUN apt-get update \
 # install python dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
-RUN pip install "uvicorn[standard]==0.21.1"
+COPY ./requirements-dev.txt .
+RUN pip install pip-tools
+RUN pip-sync requirements*.txt
 
 # add app
 COPY . .

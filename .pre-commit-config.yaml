@@ -65,7 +65,7 @@ repos:
         args:
           - --allow-unsafe
           - --extra=dev
-          - --output-file=requirements-dev.txt
+          - --output-file=src/requirements-dev.txt
           - --quiet
           - --upgrade
           - pyproject.toml
