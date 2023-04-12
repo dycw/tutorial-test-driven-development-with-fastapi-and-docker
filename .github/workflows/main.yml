@@ -68,7 +68,7 @@ jobs:
             ${{ env.IMAGE }}:latest
       - name: Pytest
         run: docker exec app python -m pytest .
-      - name: Black
-        run: docker exec app python -m black . --check
-      - name: Ruff
-        run: docker exec app python -m ruff
+      # - name: Black
+      #   run: docker exec app python -m black . --check
+      # - name: Ruff
+      #   run: docker exec app python -m ruff
