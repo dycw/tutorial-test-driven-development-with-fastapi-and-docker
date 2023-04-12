@@ -102,7 +102,7 @@ dev = [
 #### pyright ##################################################################
 [tool.pyright]
 include = ["src"]
-exclude = ["**/__pycache__", ".direnv", ".git", ".venv", "src/migrations"]
+exclude = ["**/__pycache__", ".direnv", ".git", ".venv", "src/migrations/models"]
 pythonVersion= "3.11"
 executionEnvironments = [{ root = "src" }]
 typeCheckingMode = "strict"
@@ -145,7 +145,7 @@ xfail_strict = true
 
 #### ruff #####################################################################
 [tool.ruff]
-exclude = ["src/migrations"]
+exclude = ["src/migrations/**"]
 ignore = [
   "ANN101", # flake8-annotations, missing-type-self
   "ANN102", # flake8-annotations, missing-type-cls
