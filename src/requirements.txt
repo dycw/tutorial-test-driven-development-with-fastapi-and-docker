@@ -4,111 +4,32 @@
 #
 #    pip-compile --allow-unsafe --output-file=src/requirements.txt pyproject.toml
 #
-aerich==0.7.1
-    # via app (pyproject.toml)
-aiosqlite==0.17.0
-    # via tortoise-orm
 anyio==3.6.2
     # via
-    #   httpcore
     #   starlette
     #   watchfiles
-asyncpg==0.27.0
-    # via app (pyproject.toml)
-attrs==22.2.0
-    # via hypothesis
-beartype==0.13.1
-    # via app (pyproject.toml)
-certifi==2022.12.7
-    # via
-    #   httpcore
-    #   httpx
 click==8.1.3
-    # via
-    #   aerich
-    #   uvicorn
-coverage[toml]==7.2.3
-    # via pytest-cov
-dictdiffer==0.9.0
-    # via aerich
-dnspython==2.3.0
-    # via email-validator
-email-validator==1.3.1
-    # via pydantic
-execnet==1.9.0
-    # via pytest-xdist
+    # via uvicorn
 fastapi==0.95.0
     # via app (pyproject.toml)
-gunicorn==20.1.0
-    # via app (pyproject.toml)
 h11==0.14.0
-    # via
-    #   httpcore
-    #   uvicorn
-httpcore==0.16.3
-    # via httpx
+    # via uvicorn
 httptools==0.5.0
     # via uvicorn
-httpx==0.23.3
-    # via app (pyproject.toml)
-hypothesis==6.71.0
-    # via app (pyproject.toml)
 idna==3.4
-    # via
-    #   anyio
-    #   email-validator
-    #   rfc3986
-iniconfig==2.0.0
-    # via pytest
-iso8601==1.1.0
-    # via tortoise-orm
-packaging==23.0
-    # via pytest
-pluggy==1.0.0
-    # via pytest
-pydantic[email]==1.10.7
-    # via
-    #   aerich
-    #   app (pyproject.toml)
-    #   fastapi
-pypika-tortoise==0.1.6
-    # via tortoise-orm
-pytest==7.3.0
-    # via
-    #   app (pyproject.toml)
-    #   pytest-cov
-    #   pytest-xdist
-pytest-cov==4.0.0
-    # via app (pyproject.toml)
-pytest-xdist==3.2.1
-    # via app (pyproject.toml)
+    # via anyio
+pydantic==1.10.7
+    # via fastapi
 python-dotenv==1.0.0
     # via uvicorn
-pytz==2023.3
-    # via tortoise-orm
 pyyaml==6.0
     # via uvicorn
-rfc3986[idna2008]==1.5.0
-    # via httpx
 sniffio==1.3.0
-    # via
-    #   anyio
-    #   httpcore
-    #   httpx
-sortedcontainers==2.4.0
-    # via hypothesis
+    # via anyio
 starlette==0.26.1
     # via fastapi
-tomlkit==0.11.7
-    # via aerich
-tortoise-orm==0.19.3
-    # via
-    #   aerich
-    #   app (pyproject.toml)
 typing-extensions==4.5.0
-    # via
-    #   aiosqlite
-    #   pydantic
+    # via pydantic
 uvicorn[standard]==0.21.1
     # via app (pyproject.toml)
 uvloop==0.17.0
@@ -117,7 +38,3 @@ watchfiles==0.19.0
     # via uvicorn
 websockets==11.0.1
     # via uvicorn
-
-# The following packages are considered to be unsafe in a requirements file:
-setuptools==67.6.1
-    # via gunicorn
