@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: master
       - name: Log in to GitHub Packages
         run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin ghcr.io
         env:
@@ -40,7 +40,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: master
       - name: Log in to GitHub Packages
         run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin ghcr.io
         env:
@@ -68,9 +68,7 @@ jobs:
             ${{ env.IMAGE }}:latest
       - name: Pytest
         run: docker exec app python -m pytest .
-      - name: Flake8
-        run: docker exec app python -m flake8 .
       - name: Black
         run: docker exec app python -m black . --check
-      - name: isort
-        run: docker exec app python -m isort . --check-only
+      - name: Ruff
+        run: docker exec app python -m ruff
