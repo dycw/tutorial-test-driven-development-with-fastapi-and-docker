@@ -75,11 +75,11 @@ hatch==1.7.0
     # via app (pyproject.toml)
 hatchling==1.14.0
     # via hatch
-httpcore==0.16.3
+httpcore==0.17.0
     # via httpx
 httptools==0.5.0
     # via uvicorn
-httpx==0.23.3
+httpx==0.24.0
     # via
     #   app (pyproject.toml)
     #   hatch
@@ -91,8 +91,8 @@ idna==3.4
     # via
     #   anyio
     #   email-validator
+    #   httpx
     #   hyperlink
-    #   rfc3986
 importlib-metadata==6.3.0
     # via keyring
 iniconfig==2.0.0
@@ -105,10 +105,14 @@ jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
+jinja2==3.1.2
+    # via app (pyproject.toml)
 keyring==23.13.1
     # via hatch
 markdown-it-py==2.2.0
     # via rich
+markupsafe==2.1.2
+    # via jinja2
 mdurl==0.1.2
     # via markdown-it-py
 more-itertools==9.1.0
@@ -184,8 +188,6 @@ pytz==2023.3
     # via tortoise-orm
 pyyaml==6.0
     # via uvicorn
-rfc3986[idna2008]==1.5.0
-    # via httpx
 rich==13.3.3
     # via hatch
 ruff==0.0.261
