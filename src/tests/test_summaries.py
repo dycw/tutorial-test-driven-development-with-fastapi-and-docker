@@ -1,17 +1,16 @@
 from beartype import beartype
+from fastapi.testclient import TestClient
 from starlette.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_404_NOT_FOUND,
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
-from starlette.testclient import TestClient
 
 
 @beartype
 def test_create_summary(test_app_with_db: TestClient) -> None:
     response = test_app_with_db.post("/summaries/", json={"url": "https://foo.bar"})
-    # equivalent to content=dumps({"url": "https://foo.bar"})
     assert response.status_code == HTTP_201_CREATED
     assert response.json()["url"] == "https://foo.bar"
 
