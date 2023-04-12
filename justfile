@@ -3,6 +3,8 @@ alias t := test
 set dotenv-load := true
 set positional-arguments := true
 
+#### local ####################################################################
+
 db-migrate:
   docker compose exec web aerich migrate
 
@@ -24,6 +26,25 @@ psql:
 up:
   docker compose up -d --build
 
+#### heroku ###################################################################
+
+heroku-build:
+  docker build -f src/Dockerfile.prod \
+    -t registry.heroku.com/sheltered-falls-06080/web ./src
+
+heroku-run:
+  docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
+    -p 5003:8765 registry.heroku.com/sheltered-falls-06080/web:latest
+
+heroku-push:
+  docker push registry.heroku.com/sheltered-falls-06080/web:latest
+
+heroku-release:
+  heroku container:release web --app sheltered-falls-06080
+
+heroku-migrate:
+  heroku run aerich upgrade --app sheltered-falls-06080
+
 #### production ###############################################################
 
 prod-build:
@@ -34,26 +55,12 @@ prod-build-github:
     -t docker.pkg.github.com/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest \
     ./src
 
-prod-build-heroku:
-  docker build -f src/Dockerfile.prod \
-    -t registry.heroku.com/polar-wave-90516/web ./src
+prod-rm:
+  docker rm app -f
 
-prod-run-local:
+prod-run:
   docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
     -p 5003:8765 web:latest
 
-prod-run-heroku:
-  docker run --name app -e PORT=8765 -e DATABASE_URL=sqlite://sqlite.db \
-    -p 5003:8765 registry.heroku.com/polar-wave-90516/web:latest
-
 prod-push-github:
-  docker push registry.heroku.com/polar-wave-90516/web:latest
-
-prod-push-heroku:
   docker push docker.pkg.github.com/dycw/tutorial-test-driven-development-with-fastapi-and-docker/summarizer:latest
-
-prod-release:
-  heroku container:release web --app polar-wave-90516
-
-prod-migrate:
-  heroku run aerich upgrade --app polar-wave-90516
